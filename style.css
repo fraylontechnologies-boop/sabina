@@ -36,7 +36,7 @@ nav {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 12px 60px;
+    padding: 1px 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -49,7 +49,7 @@ nav {
 }
 
 .logo-img {
-    max-height: 95px;
+    max-height: 105px;
     width: auto;
     display: block;
     transition: var(--transition);
@@ -426,7 +426,7 @@ nav ul li a:hover::after {
 }
 
 @media (max-width: 768px) {
-    nav { padding: 8px 24px; }
+    nav { padding: 1px 24px; }
     
     .burger-menu {
         display: flex !important;

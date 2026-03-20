@@ -26,10 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const nav = document.querySelector("nav");
     window.addEventListener("scroll", () => {
         if (window.scrollY > 50) {
-            nav.style.padding = "8px 60px";
+            nav.style.padding = "0px 60px";
             nav.style.background = "rgba(5, 5, 5, 0.85)";
         } else {
-            nav.style.padding = "12px 60px";
+            nav.style.padding = "1px 60px";
             nav.style.background = "rgba(10, 10, 10, 0.7)";
         }
     });
