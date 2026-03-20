@@ -2,6 +2,24 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     
+    // 0. Burger Menu Toggle (Mobile)
+    const burgerBtn = document.getElementById("burger-btn");
+    const navMenu = document.getElementById("nav-menu");
+
+    if (burgerBtn && navMenu) {
+        burgerBtn.addEventListener("click", () => {
+            navMenu.classList.toggle("active");
+        });
+
+        // Close menu when a link is clicked
+        const navLinks = navMenu.querySelectorAll("a");
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                navMenu.classList.remove("active");
+            });
+        });
+    }
+
     // 1. Sticky Navigation smooth effect
     const nav = document.querySelector("nav");
     window.addEventListener("scroll", () => {
