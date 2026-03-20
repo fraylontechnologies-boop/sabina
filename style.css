@@ -100,17 +100,27 @@ nav ul li a:hover::after {
     align-items: center;
 }
 
+.icon-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
 .nav-icons svg {
     width: 20px;
     height: 20px;
-    cursor: pointer;
     fill: none;
     stroke: var(--text-main);
     stroke-width: 1.5;
     transition: var(--transition);
 }
 
-.nav-icons svg:hover {
+.icon-btn:hover svg {
     stroke: var(--primary);
     transform: translateY(-2px);
 }
