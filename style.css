@@ -450,7 +450,7 @@ nav ul li a:hover::after {
     /* Absolute position for links drawer */
     nav ul {
         position: fixed;
-        top: -120%;
+        top: 0;
         left: 0;
         width: 100%;
         height: 100vh;
@@ -459,12 +459,13 @@ nav ul li a:hover::after {
         justify-content: center;
         align-items: center;
         gap: 32px;
-        transition: all 0.4s ease-in-out;
+        transform: translateY(-100%);
+        transition: transform 0.4s ease-in-out;
         z-index: 999;
     }
 
     nav ul.active {
-        top: 0;
+        transform: translateY(0);
     }
 
     nav ul li a {
