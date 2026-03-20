@@ -419,12 +419,32 @@ nav ul li a:hover::after {
     nav { padding: 20px; }
     
     .burger-menu {
-        display: block !important;
-        width: 28px;
-        height: 28px;
+        display: flex !important;
+        flex-direction: column;
+        gap: 6px;
         cursor: pointer;
-        stroke: var(--text-main);
-        stroke-width: 2;
+        z-index: 1001;
+        position: relative;
+    }
+
+    .burger-menu span {
+        display: block;
+        width: 28px;
+        height: 3px;
+        background: var(--text-main);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    /* Transform to X when active is added by JS */
+    .burger-menu.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+    .burger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .burger-menu.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
     }
 
     /* Absolute position for links drawer */

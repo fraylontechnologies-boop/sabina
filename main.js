@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (burgerBtn && navMenu) {
         burgerBtn.addEventListener("click", () => {
             navMenu.classList.toggle("active");
+            burgerBtn.classList.toggle("active");
         });
 
         // Close menu when a link is clicked
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         navLinks.forEach(link => {
             link.addEventListener("click", () => {
                 navMenu.classList.remove("active");
+                burgerBtn.classList.remove("active");
             });
         });
     }
