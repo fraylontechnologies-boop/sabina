@@ -49,7 +49,7 @@ nav {
 }
 
 .logo-img {
-    max-height: 64px;
+    max-height: 80px;
     width: auto;
     display: block;
     transition: var(--transition);
