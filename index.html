@@ -24,9 +24,14 @@
         </ul>
         <div class="nav-icons">
             <!-- Search -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/></svg>
+            <button class="icon-btn" id="search-btn" aria-label="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/></svg>
+            </button>
             <!-- Cart -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-12L6 6zM6 6l-1-3h-3M9 22a1 1 0 100-2 1 1 0 000 2zM18 22a1 1 0 100-2 1 1 0 000 2z"/></svg>
+            <button class="icon-btn" id="cart-btn" aria-label="Cart" style="position: relative;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-12L6 6zM6 6l-1-3h-3M9 22a1 1 0 100-2 1 1 0 000 2zM18 22a1 1 0 100-2 1 1 0 000 2z"/></svg>
+                <span id="cart-count" style="display: none; position: absolute; top: -5px; right: -5px; background: var(--primary); color: #000; font-size: 0.7rem; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transform: scale(0);">0</span>
+            </button>
             <!-- Burger Menu (Mobile) -->
             <div class="burger-menu" id="burger-btn">
                 <span></span>
@@ -257,6 +262,39 @@
 
         <p style="color: rgba(255,255,255,0.3); font-size: 0.8rem;">&copy; 2026 Sabina Perfumes. All rights reserved.</p>
     </footer>
+
+    <!-- Search Overlay -->
+    <div id="search-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); z-index: 5000; opacity: 0; pointer-events: none; transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px;">
+        <button id="close-search" style="position: absolute; top: 30px; right: 30px; background: none; border: none; color: #fff; cursor: pointer; font-size: 1.5rem;">✕</button>
+        <div style="width: 100%; max-width: 600px; text-align: center;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 24px;">Search Fragrances</h3>
+            <input type="text" id="search-input" placeholder="Type notes, scent profile..." style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 16px 24px; border-radius: 8px; color: #fff; font-size: 1.1rem; outline: none; border-color: var(--primary);">
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px;">Press Enter to search</p>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div id="cart-drawer" style="position: fixed; top: 0; right: -400px; width: 400px; max-width: 100%; height: 100vh; background: #080808; border-left: 1px solid var(--glass-border); z-index: 5000; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; box-shadow: -10px 0 40px rgba(0,0,0,0.8);">
+        <!-- Drawer Header -->
+        <div style="padding: 24px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem;">Shopping Bag</h3>
+            <button id="close-cart" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 1.2rem;">✕</button>
+        </div>
+        
+        <!-- Drawer Items -->
+        <div id="cart-items" style="flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px;">
+            <p style="text-align: center; color: var(--text-muted); margin-top: 40px;">Your bag is empty.</p>
+        </div>
+        
+        <!-- Drawer Footer -->
+        <div style="padding: 24px; border-top: 1px solid var(--glass-border); background: rgba(255,255,255,0.01);">
+            <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 600; margin-bottom: 20px;">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button class="btn" style="width: 100%; text-align: center; justify-content: center; padding: 16px;">Checkout</button>
+        </div>
+    </div>
 
     <script src="main.js"></script>
 </body>

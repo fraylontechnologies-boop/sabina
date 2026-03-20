@@ -61,18 +61,32 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollObserver.observe(target);
     });
 
-    // 3. Add to Bag Button Animation
+    // 3. Add to Bag Trigger & Cart Logic
     const addButtons = document.querySelectorAll(".add-btn");
+    let cart = [];
     
+    // Core Elements from Overlay Drawer
+    const cartItemsContainer = document.getElementById("cart-items");
+    const cartCountBadge = document.getElementById("cart-count");
+    const cartTotalNode = document.getElementById("cart-total");
+
     addButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", (e) => {
+            // Get product name & price from cards
+            const card = e.target.closest(".product-card");
+            const name = card.querySelector("h3").innerText;
+            const priceText = card.querySelector(".price").innerText;
+            const price = parseFloat(priceText.replace('$', ''));
+            const image = card.querySelector("img").src;
+
+            addToCart({ name, price, image });
+
             const originalText = btn.innerText;
             btn.innerText = "Added to Bag";
             btn.style.background = "var(--primary)";
             btn.style.color = "#000";
             
-            // Create a small toast notification system
-            showToast("Product added to bag successfully");
+            showToast(`${name} added to bag`);
 
             setTimeout(() => {
                 btn.innerText = originalText;
@@ -81,6 +95,95 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 2000);
         });
     });
+
+    function addToCart(item) {
+        const existingItem = cart.find(i => i.name === item.name);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ ...item, quantity: 1 });
+        }
+        renderCart();
+    }
+
+    function renderCart() {
+        if (!cartItemsContainer) return;
+
+        // Count total items
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        if (totalItems > 0) {
+            cartCountBadge.style.display = "flex";
+            cartCountBadge.style.transform = "scale(1)";
+            cartCountBadge.innerText = totalItems;
+        } else {
+            cartCountBadge.style.transform = "scale(0)";
+        }
+
+        // Generate Item Blocks
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = `<p style="text-align: center; color: var(--text-muted); margin-top: 40px;">Your bag is empty.</p>`;
+            cartTotalNode.innerText = "$0.00";
+            return;
+        }
+
+        let html = '';
+        let totalSum = 0;
+        cart.forEach((item, index) => {
+            totalSum += item.price * item.quantity;
+            html += `
+                <div style="display: flex; gap: 15px; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); align-items: center;">
+                    <img src="${item.image}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                    <div style="flex: 1;">
+                        <h4 style="font-size: 0.95rem; margin-bottom: 4px;">${item.name}</h4>
+                        <p style="color: var(--primary); font-size: 0.85rem; font-weight: 600;">$${item.price.toFixed(2)}</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                        <button onclick="changeQty(${index}, -1)" style="background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 24px; height: 24px; border-radius: 4px; cursor: pointer;">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="changeQty(${index}, 1)" style="background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 24px; height: 24px; border-radius: 4px; cursor: pointer;">+</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        cartItemsContainer.innerHTML = html;
+        cartTotalNode.innerText = `$${totalSum.toFixed(2)}`;
+    }
+
+    // Global Qty Changer
+    window.changeQty = function(index, delta) {
+        if (cart[index]) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            renderCart();
+        }
+    };
+
+    // 4. Click handlers for overlays
+    const searchBtn = document.getElementById("search-btn");
+    const cartBtn = document.getElementById("cart-btn");
+    const searchOverlay = document.getElementById("search-overlay");
+    const cartDrawer = document.getElementById("cart-drawer");
+    const closeSearch = document.getElementById("close-search");
+    const closeCart = document.getElementById("close-cart");
+
+    if (searchBtn && searchOverlay) {
+        searchBtn.addEventListener("click", () => {
+            searchOverlay.style.opacity = "1";
+            searchOverlay.style.pointerEvents = "auto";
+        });
+        closeSearch.addEventListener("click", () => {
+            searchOverlay.style.opacity = "0";
+            searchOverlay.style.pointerEvents = "none";
+        });
+    }
+
+    if (cartBtn && cartDrawer) {
+        cartBtn.addEventListener("click", () => { cartDrawer.style.right = "0"; });
+        closeCart.addEventListener("click", () => { cartDrawer.style.right = "-400px"; });
+    }
 
     function showToast(message) {
         const toast = document.createElement("div");
